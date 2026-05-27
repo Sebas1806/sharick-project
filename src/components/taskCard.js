@@ -51,6 +51,15 @@ export function createTaskCardHTML(task, assignedUser) {
       </button>`
     : '';
 
+  const deleteButton = admin
+    ? `<button
+        class="delete-task-btn ml-2 text-on-surface-variant hover:text-error transition-colors"
+        data-task-id="${task.id}"
+        title="Delete task">
+        <span class="material-symbols-outlined text-[18px]">delete</span>
+      </button>`
+    : '';
+
   return `
     <div class="task-card ${doneStyles} ${inProgressBorder} border border-outline-variant rounded-xl p-md shadow-sm" data-task-id="${task.id}">
       <div class="flex items-start justify-between mb-xs">
@@ -83,6 +92,7 @@ export function createTaskCardHTML(task, assignedUser) {
               </span>`
           }
           ${editButton}
+          ${deleteButton}
         </div>
       </div>
     </div>

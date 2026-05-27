@@ -4,7 +4,7 @@
 // and handles all task management logic
 // ============================================================
 
-import { getTasks, getUsers } from '../api.js';
+import { getTasks, getUsers, deleteTask } from '../api.js';
 import { getSession, clearSession, isAdmin, getInitials } from '../auth.js';
 import { navigate } from '../router.js';
 import { createTaskCardHTML } from '../components/taskCard.js';
@@ -121,6 +121,23 @@ function attachCardListeners() {
         await openEditModal(task, async () => {
           await loadBoardData();
         });
+      }
+    });
+  });
+
+  document.querySelectorAll('.delete-task-btn').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const taskId = parseInt(btn.dataset.taskId);
+      if (confirm('Are you sure you want to delete this task?')) {
+        try {
+          await deleteTask(taskId);
+          showToast('Task deleted successfully!', 'success');
+          await loadBoardData();
+        } catch (err) {
+          showToast('Failed to delete task. Please try again.', 'error');
+          console.error('Delete task error:', err);
+        }
       }
     });
   });
